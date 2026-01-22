@@ -15,10 +15,9 @@ biopython==1.79
 numpy==1.24.4
 pandas==1.4.4
 PyYAML==6.0
-requests==2.32.5
+requests>=2.32.2
 scikit_learn==1.3.2
 scipy==1.6.3
-torch==1.9.0
 torch==1.13.1+cu117
 transformers==4.28.1
 ```
@@ -34,6 +33,7 @@ conda create -n diva python=3.8
 conda activate diva
 
 pip install -r requirements.txt
+pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu117
 ```
 
 ## Prepare input data
