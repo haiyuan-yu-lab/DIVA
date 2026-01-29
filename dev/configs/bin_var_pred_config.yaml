@@ -1,13 +1,12 @@
 # config on G2-server
 exp_dir: ./scratch/
-experiment: esm640_zs_pred_test
+experiment: diva_mix_frozeESM_trainboth_pred_af
 # experiment: debug_pred
 mode: inference
 device: cuda:0
 batch_size: 16
 pheno_batch_size: 16
-# model_path: ./scratch/dis_desc_w005/2024-04-01-10-24-47/checkpoints/bestmodel-ep38.pt
-# model_path: ./scratch/dis_desc_w005/2024-04-01-10-24-47/checkpoints/best_pheno_model.pt
+
 # model_path: ./scratch/dis_esm1280_fr1_hard100_holdout/2024-12-09-12-28-03/checkpoints/best_patho_model.pt
 # model_path: ./scratch/dis_saprot_fr_hard100_rev/2025-01-06-16-04-59/checkpoints/best_patho_model.pt
 # model_path: ./scratch/pr_dis_saprotaf_hard100/2025-01-17-15-29-56/checkpoints/best_patho_model.pt
@@ -17,7 +16,10 @@ pheno_batch_size: 16
 # model_path: ./scratch/dis_esm640_fr1_hard100_rev/2025-01-06-16-26-19/checkpoints/best_patho_model.pt
 # model_path: ./scratch/pr_mix_ep2_esm640_ft_hard100/2025-01-29-12-59-39/checkpoints/best_patho_model.pt
 # model_path: ./scratch//pr_mix_ep1_esm640_ft_mixneg200/2025-01-31-12-53-55/checkpoints/best_patho_model.pt
-model_path: ./scratch/esm640_zs_randneg100_sample/2025-03-13-15-06-44/checkpoints/best_patho_model.pt
+# model_path: ./scratch/noAF_esm640_frozen_trainboth_all_hardneg200/2026-01-22-16-30-48/checkpoints/best_patho_model.pt  # ablation: no alphamissense
+model_path: ./scratch/mix_esm640_frozen_trainboth_all_hardneg200/2026-01-22-16-17-41/checkpoints/best_patho_model.pt  # full optimization on both
+
+# model_path: ./scratch/esm640_zs_randneg100_sample/2025-03-13-15-06-44/checkpoints/best_patho_model.pt
 # model_path: ./scratch//esm1280_zs_randneg100_sample/2025-03-13-15-50-44/checkpoints/best_patho_model.pt
 # output_file: ./dms_ontoprot_wt_score.csv
 init_lr: 0.001
@@ -49,7 +51,7 @@ model:
   calibration_fn_name: none
   dist_fn_name: cosine_sigmoid
   margin: 0.25  # margin for contrast loss
-  adjust_logits: False
+  adjust_logits: True
 
 dataset:
   task_name: var_pred
@@ -63,20 +65,12 @@ dataset:
     train: disease_clean1/all_vars_in_training.csv
     test: 
         # - disease_clean1/train.csv
-        - disease_clean1/test.csv
+        # - disease_clean1/test.csv
         # - disease_clean1/val.csv
-        # - inference/cancer_hotspot_select.csv
-        # - inference/dms_PTEN_processed.csv
-        # - inference/dms_BRCA1_processed.csv
-        # - inference/dms_MSH2_processed.csv
-        # - inference/dms_TP53_processed.csv
-        # - inference/ProteinGym_human_single.csv
-        # - gof_lof_ion_channel.csv
-        # - patho_neutral_ion_channel.csv
         # - inference/AlphaMissense/af_cancer_sample.csv
-        # - inference/AlphaMissense/af_cancer_hotspot.csv
-        # - inference/AlphaMissense/af_clinvar_pred.csv
-        # - inference/AlphaMissense/af_dev_disorder.csv
+        - inference/AlphaMissense/af_cancer_hotspot.csv
+        - inference/AlphaMissense/af_dev_disorder.csv
+        - inference/AlphaMissense/af_clinvar_pred.csv
         # - inference/sample.csv
   # phenotype_vocab_file: /home/yl986/data/variant_data/pred/pheno_select/phenotype_vocab.txt
   # phenotype_desc_file: /home/yl986/data/variant_data/short_name2desc.json  # phenotype name-to-description
@@ -84,6 +78,7 @@ dataset:
   phenotype_desc_file: /home/yl986/data/variant_data/pred/disease_clean1/var_dis_vocab_desc.json  # phenotype name-to-description
   use_pheno_desc: True
   context_agg_option: concat
+  update_cache: False
   variant_cache_file: /home/yl986/data/variant_data/prot_var_cache.json  # update if necessary (for disease inference / with different disease aggregation method)
   pid_col: UniProt
   # pid_col: uniprot_id  # for DMS
@@ -102,6 +97,6 @@ dataset:
   foldseek_bin: '/home/yl986/scripts/SaProt/bin/foldseek'
   struct_seq_file: '/home/yl986/data/variant_data/pred/prot_combine_seq.json'  # pre-processed structure-aware sequence (SaProt)
   binary_inference_only: True
-  use_alphamissense: False
+  use_alphamissense: True
   alphamissense_score_dir: '/home/yl986/data/variant_data/AlphaMissense/substitutions_by_prot'  
 

@@ -1,13 +1,12 @@
 # config on G2-server
 exp_dir: ./scratch/
-experiment: esm640_zs_mixneg_proteingym
+# experiment: esm640_zs_mixneg_proteingym
+experiment: diva_v1_hn200_proteingym
 # experiment: debug_dms
 mode: inference
 device: cuda:0
 batch_size: 16
 pheno_batch_size: 16
-# model_path: ./scratch/dis_desc_w005/2024-04-01-10-24-47/checkpoints/bestmodel-ep38.pt
-# model_path: ./scratch/dis_desc_w005/2024-04-01-10-24-47/checkpoints/best_pheno_model.pt
 # model_path: ./scratch/dis_esm1280_fr1_hard100_holdout/2024-12-09-12-28-03/checkpoints/best_patho_model.pt
 # model_path: ./scratch/dis_saprot_fr_hard100_rev/2025-01-06-16-04-59/checkpoints/best_patho_model.pt
 # model_path: ./scratch/dis_saprotAF_fr_hard100_tr/2025-01-15-17-48-11/checkpoints/best_patho_model.pt
@@ -18,9 +17,9 @@ pheno_batch_size: 16
 # model_path: ./scratch/pr_mix_ep2_esm640_ft_hard100/2025-01-29-12-59-39/checkpoints/best_patho_model.pt
 # model_path: ./scratch//pr_mix_ep1_esm640_ft_mixneg200/2025-01-31-12-53-55/checkpoints/best_patho_model.pt
 # model_path: ./scratch//pr_mix_esm1280_ep1_ft_mixneg200/2025-02-03-11-53-37/checkpoints/best_patho_model.pt
-model_path: ./scratch/esm640_zs_randneg100_sample/2025-03-13-15-06-44/checkpoints/best_patho_model.pt
+# model_path: ./scratch/esm640_zs_randneg100_sample/2025-03-13-15-06-44/checkpoints/best_patho_model.pt
 # model_path: ./scratch//esm1280_zs_randneg100_sample/2025-03-13-15-50-44/checkpoints/best_patho_model.pt
-# output_file: ./dms_ontoprot_wt_score.csv
+model_path: ./scratch/pr_mix_esm640_ep1_ft_hardneg200/2025-03-12-12-23-08/checkpoints/best_patho_model.pt  # diva_v1_hn200
 init_lr: 0.001
 
 model:
@@ -41,7 +40,7 @@ model:
   calibration_fn_name: none
   dist_fn_name: cosine_sigmoid
   margin: 0.25  # margin for contrast loss
-  adjust_logits: False
+  adjust_logits: True
 
 dataset:
   task_name: var_pred
@@ -76,6 +75,6 @@ dataset:
   struct_folder: '/home/yl986/data/variant_data/ProteinGym/ProteinGym_AF2_structures'
   struct_seq_file: '/home/yl986/data/variant_data/pred/prot_combine_seq.json'  # pre-processed structure-aware sequence (SaProt)
   binary_inference_only: True
-  use_alphamissense: False
+  use_alphamissense: True
   alphamissense_score_dir: '/home/yl986/data/variant_data/AlphaMissense/substitutions_by_prot'
 
